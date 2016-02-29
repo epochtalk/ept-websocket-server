@@ -10,5 +10,8 @@
     "socketcluster"
   ],
   "author": "boka",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "socketcluster": "^4.3.2"
+  }
 }
