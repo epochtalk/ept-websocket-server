@@ -12,6 +12,7 @@
   "author": "boka",
   "license": "ISC",
   "dependencies": {
+    "dotenv": "^2.0.0",
     "socketcluster": "^4.3.2"
   }
 }
