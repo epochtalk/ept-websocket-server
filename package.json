@@ -4,6 +4,7 @@
   "description": "socket server for epochtalk notifications",
   "main": "index.js",
   "scripts": {
+    "serve": "node index",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
