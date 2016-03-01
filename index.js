@@ -1,5 +1,5 @@
 require('dotenv').load();
-var SocketCluster = require('socketcluster');
+var SocketCluster = require('socketcluster').SocketCluster;
 
 var socketCluster = new SocketCluster({
   workers: 3,
