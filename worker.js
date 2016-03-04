@@ -4,10 +4,6 @@ module.exports.run = function(worker) {
 
   scServer.on('connection', function(socket) {
     console.log('hello:', process.pid);
-    // socket.on('sampleClientEvent', function(data) {
-    //   console.log('hey, this worker:', process.pid, 'received a sample event!');
-    //   scServer.exchange.publish('sample');
-    // });
 
     var interval = setInterval(function() {
       socket.emit('hello', 500);
