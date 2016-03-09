@@ -12,5 +12,9 @@ module.exports.run = function(worker) {
     socket.on('disconnect', function() {
       clearInterval(interval);
     });
+
+    socket.on('error', function(error) {
+      console.log('error', error);
+    });
   });
 };
