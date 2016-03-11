@@ -10,5 +10,6 @@ var socketCluster = new SocketCluster({
   port: config.port,
   host: config.host,
   appName: 'myapp',
-  workerController: 'worker.js'
+  workerController: 'worker.js',
+  allowClientPublish: false
 });
