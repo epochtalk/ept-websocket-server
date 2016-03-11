@@ -6,7 +6,7 @@ module.exports.run = function(worker) {
   var scServer = worker.scServer;
 
   scServer.on('connection', function(socket) {
-    console.log('hello:', process.pid);
+    console.log('connected:', process.pid);
     var userToken = {
       valid: false
     };
