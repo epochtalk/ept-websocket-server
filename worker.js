@@ -29,6 +29,7 @@ module.exports.run = function(worker) {
     });
 
     socket.on('disconnect', function() {
+      console.log('disconnected:', process.pid);
       clearInterval(interval);
     });
 
