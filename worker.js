@@ -12,8 +12,17 @@ module.exports.run = function(worker) {
     };
 
     var interval = setInterval(function() {
-      socket.emit('hello', 500);
-    }, 1000);
+      if (userToken.valid) {
+        socket.emit('refresh', userToken.token, function(err) {
+          if (err) {
+            console.log(err);
+          }
+        });
+      }
+      else {
+        socket.disconnect();
+      }
+    }, 10000);
 
     socket.on('register', function(token) {
       helper.authenticateUser(token)
