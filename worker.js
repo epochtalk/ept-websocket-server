@@ -6,28 +6,23 @@ module.exports.run = function(worker) {
 
   scServer.on('connection', function(socket) {
     console.log('connected:', process.pid);
-    var userToken = {
+    var user= {
       valid: false
     };
 
     var interval = setInterval(function() {
-      if (userToken.valid) {
-        socket.emit('refresh', userToken.token, function(err) {
-          if (err) {
-            console.log(err);
-          }
-        });
-      }
-      else {
-        socket.disconnect();
+      if (user.valid) {
+        user.channel.publish('refresh');
       }
     }, 10000);
 
     socket.on('register', function(token) {
       helper.authenticateUser(token)
       .then(function(userData) {
-        userToken.valid = true;
-        userToken.token = token;
+        user.channel = scServer.exchange.subscribe('/u/' + userData.id);
+        user.valid = true;
+        user.token = token;
+        user.id = userData.id;
       })
       .catch(function() {
         console.log('failed to authenticate:', token);
