@@ -2,7 +2,6 @@ var path = require('path');
 var helper = require(path.join(__dirname, 'helper'));
 
 module.exports.run = function(worker) {
-  console.log('hey, this is a debug from worker:', process.pid);
   var scServer = worker.scServer;
 
   scServer.on('connection', function(socket) {
@@ -27,7 +26,6 @@ module.exports.run = function(worker) {
     socket.on('register', function(token) {
       helper.authenticateUser(token)
       .then(function(userData) {
-        console.log('registered:', userData.id);
         userToken.valid = true;
         userToken.token = token;
       })
@@ -43,7 +41,7 @@ module.exports.run = function(worker) {
     });
 
     socket.on('error', function(error) {
-      console.log('error', error);
+      console.log('SocketError:', error.message);
     });
   });
 };
