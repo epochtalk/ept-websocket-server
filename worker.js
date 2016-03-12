@@ -4,6 +4,17 @@ var helper = require(path.join(__dirname, 'helper'));
 module.exports.run = function(worker) {
   var scServer = worker.scServer;
 
+  // authorize subscriptions
+  scServer.addMiddleware(scServer.MIDDLEWARE_SUBSCRIBE, function(req, next) {
+    var token = req.socket.getAuthToken();
+    if (token && req.channel === '/u/' + token.userId) {
+      next();
+    }
+    else {
+      next('subscription to ' + req.channel + ' failed.');
+    }
+  });
+
   scServer.on('connection', function(socket) {
     console.log('connected:', process.pid);
     var user= {
