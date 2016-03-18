@@ -1,5 +1,4 @@
 var path = require('path');
-var helper = require(path.join(__dirname, 'helper'));
 var config = require(path.join(__dirname, 'config'));
 
 module.exports.run = function(worker) {

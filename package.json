@@ -14,8 +14,6 @@
   "license": "ISC",
   "dependencies": {
     "dotenv": "^2.0.0",
-    "request": "^2.69.0",
-    "socketcluster": "^4.3.2",
-    "urijs": "^1.17.1"
+    "socketcluster": "^4.3.2"
   }
 }
