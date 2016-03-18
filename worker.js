@@ -18,20 +18,18 @@ module.exports.run = function(worker) {
 
   scServer.on('connection', function(socket) {
     console.log('connected:', process.pid);
+    var user= {
+      valid: false
+    };
+
     socket.on('notify', function(options) {
       if (options.APIKey === config.APIKey) {
         scServer.exchange.publish('/u/' + options.userId, options);
       }
     });
-    var user= {
-      valid: false
-    };
-
-
     socket.on('disconnect', function() {
       console.log('DISCONNECT:', process.pid);
     });
-
     socket.on('error', function(error) {
       console.log('SocketError:', error.message);
     });
