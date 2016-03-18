@@ -1,12 +1,16 @@
 require('dotenv').load();
-var os = require('os');
+var path = require('path');
 var SocketCluster = require('socketcluster').SocketCluster;
 
+var config = require(path.join(__dirname, 'config'));
+
 var socketCluster = new SocketCluster({
-  workers: os.cpus().length,
+  authKey: config.authKey,
+  workers: config.workers,
   brokers: 3,
-  port: process.env.WEBSOCKET_PORT,
-  host: process.env.WEBSOCKET_HOST,
+  port: config.port,
+  host: config.host,
   appName: 'myapp',
-  workerController: 'worker.js'
+  workerController: 'worker.js',
+  allowClientPublish: false
 });

@@ -1,20 +1,38 @@
+var path = require('path');
+var helper = require(path.join(__dirname, 'helper'));
+var config = require(path.join(__dirname, 'config'));
+
 module.exports.run = function(worker) {
-  console.log('hey, this is a debug from worker:', process.pid);
   var scServer = worker.scServer;
 
+  // authorize subscriptions
+  scServer.addMiddleware(scServer.MIDDLEWARE_SUBSCRIBE, function(req, next) {
+    var token = req.socket.getAuthToken();
+    if (token && req.channel === '/u/' + token.userId) {
+      next();
+    }
+    else {
+      next('MIDDLEWARE_SUBSCRIBE:' + req.channel + ' failed.');
+    }
+  });
+
   scServer.on('connection', function(socket) {
-    console.log('hello:', process.pid);
+    console.log('CONNECTION: connected to', process.pid);
+    var user= {
+      valid: false
+    };
 
-    var interval = setInterval(function() {
-      socket.emit('hello', 500);
-    }, 1000);
-
-    socket.on('disconnect', function() {
-      clearInterval(interval);
+    socket.on('notify', function(options) {
+      console.log('NOTIFY:', options);
+      if (options.APIKey === config.APIKey) {
+        scServer.exchange.publish('/u/' + options.userId, options);
+      }
     });
-
+    socket.on('disconnect', function() {
+      console.log('DISCONNECT:', process.pid);
+    });
     socket.on('error', function(error) {
-      console.log('error', error);
+      console.log('SocketError:', error.message);
     });
   });
 };
