@@ -5,5 +5,6 @@ module.exports = {
   workers: os.cpus().length,
   port: process.env.WEBSOCKET_PORT,
   host: process.env.WEBSOCKET_HOST,
+  APIKey: process.env.WEBSOCKET_API_KEY,
   epochtalkURL: process.env.EPOCHTALK_URL || 'http://localhost:8080'
 };
