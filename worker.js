@@ -21,29 +21,9 @@ module.exports.run = function(worker) {
       valid: false
     };
 
-    var interval = setInterval(function() {
-      if (user.valid) {
-        user.channel.publish('refresh');
-      }
-    }, 10000);
-
-    socket.on('register', function(token) {
-      helper.authenticateUser(token)
-      .then(function(userData) {
-        user.channel = scServer.exchange.subscribe('/u/' + userData.id);
-        user.valid = true;
-        user.token = token;
-        user.id = userData.id;
-      })
-      .catch(function() {
-        console.log('failed to authenticate:', token);
-        socket.disconnect();
-      });
-    });
 
     socket.on('disconnect', function() {
-      console.log('disconnected:', process.pid);
-      clearInterval(interval);
+      console.log('DISCONNECT:', process.pid);
     });
 
     socket.on('error', function(error) {
