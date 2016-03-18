@@ -1,5 +1,6 @@
 var path = require('path');
 var helper = require(path.join(__dirname, 'helper'));
+var config = require(path.join(__dirname, 'config'));
 
 module.exports.run = function(worker) {
   var scServer = worker.scServer;
@@ -17,6 +18,11 @@ module.exports.run = function(worker) {
 
   scServer.on('connection', function(socket) {
     console.log('connected:', process.pid);
+    socket.on('notify', function(options) {
+      if (options.APIKey === config.APIKey) {
+        scServer.exchange.publish('/u/' + options.userId, options);
+      }
+    });
     var user= {
       valid: false
     };
