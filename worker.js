@@ -12,17 +12,18 @@ module.exports.run = function(worker) {
       next();
     }
     else {
-      next('subscription to ' + req.channel + ' failed.');
+      next('MIDDLEWARE_SUBSCRIBE:' + req.channel + ' failed.');
     }
   });
 
   scServer.on('connection', function(socket) {
-    console.log('connected:', process.pid);
+    console.log('CONNECTION: connected to', process.pid);
     var user= {
       valid: false
     };
 
     socket.on('notify', function(options) {
+      console.log('NOTIFY:', options);
       if (options.APIKey === config.APIKey) {
         scServer.exchange.publish('/u/' + options.userId, options);
       }
