@@ -17,10 +17,6 @@ module.exports.run = function(worker) {
 
   scServer.on('connection', function(socket) {
     console.log('CONNECTION: connected to', process.pid);
-    var user= {
-      valid: false
-    };
-
     socket.on('notify', function(options) {
       console.log('NOTIFY:', options);
       if (options.APIKey === config.APIKey) {
