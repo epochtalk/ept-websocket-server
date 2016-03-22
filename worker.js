@@ -18,8 +18,12 @@ module.exports.run = function(worker) {
   scServer.on('connection', function(socket) {
     console.log('CONNECTION: connected to', process.pid);
     socket.on('notify', function(options) {
+      // don't allow API key to be sent to client
+      var APIKey = options.APIKey;
+      delete options.APIKey;
+
       console.log('NOTIFY:', options.userId);
-      if (options.APIKey === config.APIKey) {
+      if (APIKey === config.APIKey) {
         scServer.exchange.publish('/u/' + options.userId, options);
       }
     });
