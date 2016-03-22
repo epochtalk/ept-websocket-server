@@ -18,7 +18,7 @@ module.exports.run = function(worker) {
   scServer.on('connection', function(socket) {
     console.log('CONNECTION: connected to', process.pid);
     socket.on('notify', function(options) {
-      console.log('NOTIFY:', options);
+      console.log('NOTIFY:', options.userId);
       if (options.APIKey === config.APIKey) {
         scServer.exchange.publish('/u/' + options.userId, options);
       }
