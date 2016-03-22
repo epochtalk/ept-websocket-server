@@ -27,6 +27,9 @@ module.exports.run = function(worker) {
         scServer.exchange.publish('/u/' + options.userId, options);
       }
     });
+    socket.on('deauthenticate', function() {
+      socket.kickOut();
+    });
     socket.on('disconnect', function() {
       console.log('DISCONNECT:', process.pid);
     });
