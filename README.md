@@ -8,9 +8,15 @@ Configuration
 
 `cp example.env .env`
 
-Edit .env `PRIVATE_KEY` to reflect that of the Epochtalk server.
+Edit `.env`:
 
-Provide a `WEBSOCKET_API_KEY` to validate the Epochtalk server.
+* `EPOCHTALK_URL` to point to the Epochtalk server.
+
+* `PRIVATE_KEY` to reflect that of the Epochtalk server.
+
+  * This is used for JWT token authentication.
+
+* Provide a `WEBSOCKET_API_KEY` to validate the Epochtalk server.
 
 Running
 -------
