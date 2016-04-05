@@ -1,5 +1,6 @@
 var path = require('path');
 var config = require(path.join(__dirname, 'config'));
+var db = require(path.join(__dirname, 'db'));
 
 module.exports.run = function(worker) {
   var scServer = worker.scServer;
@@ -7,6 +8,9 @@ module.exports.run = function(worker) {
   // authorize subscriptions
   scServer.addMiddleware(scServer.MIDDLEWARE_SUBSCRIBE, function(req, next) {
     var token = req.socket.getAuthToken();
+    if (token) {
+      db.users.find(token.userId).then(console.log).catch(console.log);
+    }
     if (token && req.channel === '/u/' + token.userId) {
       next();
     }

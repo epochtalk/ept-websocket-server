@@ -13,6 +13,7 @@
   "author": "boka",
   "license": "ISC",
   "dependencies": {
+    "ept-users": "epochtalk/ept-users",
     "dotenv": "^2.0.0",
     "socketcluster": "^4.3.2"
   }
