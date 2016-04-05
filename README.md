@@ -12,8 +12,6 @@ Edit `.env`:
 
 * `DATABASE_URL` is the URL for the postgres instance.
 
-* `EPOCHTALK_URL` to point to the Epochtalk server.
-
 * `PRIVATE_KEY` to reflect that of the Epochtalk server.
 
   * This is used for JWT token authentication.
