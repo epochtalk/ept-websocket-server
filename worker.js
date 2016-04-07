@@ -46,9 +46,8 @@ module.exports.run = function(worker) {
       var APIKey = options.APIKey;
       delete options.APIKey;
 
-      console.log('NOTIFY:', options.userId);
       if (APIKey === config.APIKey) {
-        scServer.exchange.publish('/u/' + options.userId, options);
+        scServer.exchange.publish(options.channel, options.data);
       }
     });
     socket.on('deauthenticate', function() {
