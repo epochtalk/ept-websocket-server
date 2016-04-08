@@ -22,7 +22,6 @@ module.exports.run = function(worker) {
         }
         // check for role channel
         else if (_.some(dbUser.roles, roleChannelLookup(req.channel))) {
-          console.log('subscribed to roles channel', req.channel);
           next();
         }
         else {
@@ -30,7 +29,6 @@ module.exports.run = function(worker) {
         }
       })
       .catch(function(err) {
-        console.log(err);
         next('MIDDLEWARE_SUBSCRIBE: User error.');
       });
     }
