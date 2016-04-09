@@ -1,5 +1,5 @@
 {
-  "name": "epochtalk-socket-server",
+  "name": "epochtalk-websocket-server",
   "version": "1.0.0",
   "description": "socket server for epochtalk notifications",
   "main": "index.js",
