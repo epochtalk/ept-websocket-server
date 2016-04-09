@@ -16,3 +16,13 @@ Build the docker container.
 Run the docker container as a daemon.
 
 `docker run -d -P --name [name] [container_name]`
+
+##Stopping
+
+Stop the docker container.
+
+`docker stop [name]`
+
+Remove the old instance.
+
+`docker rm [container_name]`
