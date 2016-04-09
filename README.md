@@ -1,4 +1,4 @@
-Epochtalk Socket Server
+Epochtalk Websocket Server
 =======================
 
 Socket server for epochtalk notifications.
