@@ -18,6 +18,14 @@ Edit `.env`:
 
 * Provide a `WEBSOCKET_API_KEY` to validate the Epochtalk server.
 
+### Using https
+
+Provide:
+WEBSOCKET_PROTOCOL
+WEBSOCKET_CERT
+WEBSOCKET_KEY
+WEBSOCKET_PASS
+
 Running
 -------
 
