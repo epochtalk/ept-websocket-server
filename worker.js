@@ -29,7 +29,7 @@ module.exports.run = function(worker) {
         }
       })
       .catch(function(err) {
-        next('MIDDLEWARE_SUBSCRIBE: User error.');
+        next('MIDDLEWARE_SUBSCRIBE: ' + err);
       });
     }
     else {
