@@ -14,6 +14,8 @@
   "license": "ISC",
   "dependencies": {
     "dotenv": "^2.0.0",
+    "ept-users": "epochtalk/ept-users",
+    "lodash": "^4.8.2",
     "socketcluster": "^4.3.2"
   }
 }
