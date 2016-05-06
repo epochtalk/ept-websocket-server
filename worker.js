@@ -2,6 +2,7 @@ var path = require('path');
 var config = require(path.join(__dirname, 'config'));
 
 var middleware = require(path.join(__dirname, 'middleware'));
+var handlers = require(path.join(__dirname, 'handlers'));
 
 module.exports.run = function(worker) {
   var scServer = worker.scServer;
@@ -10,6 +11,7 @@ module.exports.run = function(worker) {
   scServer.addMiddleware(scServer.MIDDLEWARE_SUBSCRIBE, middleware.subscribe);
 
   scServer.on('connection', function(socket) {
+    socket.on('subscribe', handlers.postprocessSubscribe);
     console.log('CONNECTION: connected to', process.pid);
     socket.on('notify', function(options) {
       // don't allow API key to be sent to client
