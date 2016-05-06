@@ -5,11 +5,6 @@ var db = require(path.join(__dirname, 'db'));
 var middleware = module.exports = {};
 middleware.subscribe = function(req, next) {
   var token = req.socket.getAuthToken();
-  var roleChannelLookup = function(channel) {
-    return function(role) {
-      return channel === '/r/' + role.lookup;
-    };
-  };
   if (token) {
     db.users.find(token.userId).then(function(dbUser) {
       // check for user channel
@@ -32,3 +27,9 @@ middleware.subscribe = function(req, next) {
     next('MIDDLEWARE_SUBSCRIBE: Missing token.');
   }
 };
+
+function roleChannelLookup(channelRole) {
+  return function(role) {
+    return  channelRole === role.lookup;
+  };
+}
