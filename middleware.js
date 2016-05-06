@@ -16,7 +16,7 @@ middleware.subscribe = function(req, next) {
           next();
         }
         // check for role channel
-        else if (channel['type'] === 'role' && _.some(dbUser.roles, roleChannelLookup(channel['id']))) {
+        else if (channel['type'] === 'role' && _.some(dbUser.roles, helper.roleChannelLookup(channel['id']))) {
           next();
         }
         else {
@@ -36,8 +36,3 @@ middleware.subscribe = function(req, next) {
   }
 };
 
-function roleChannelLookup(channelRole) {
-  return function(role) {
-    return  channelRole === role.lookup;
-  };
-}
