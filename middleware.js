@@ -1,10 +1,11 @@
 var path = require('path');
 var _ = require('lodash');
 var db = require(path.join(__dirname, 'db'));
+var helper = require(path.join(__dirname, 'helper'));
 
 var middleware = module.exports = {};
 middleware.subscribe = function(req, next) {
-  var channel = parseChannel(req.channel);
+  var channel = helper.parseChannel(req.channel);
   var token = req.socket.getAuthToken();
 
   if (channel) {
@@ -34,11 +35,6 @@ middleware.subscribe = function(req, next) {
     next('MIDDLEWARE_SUBSCRIBE: Invalid channel format ', req.channel);
   }
 };
-
-function parseChannel(reqChannel) {
-  try { return JSON.parse(reqChannel); }
-  catch(err){ return undefined; }
-}
 
 function roleChannelLookup(channelRole) {
   return function(role) {
