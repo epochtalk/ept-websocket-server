@@ -28,6 +28,8 @@ module.exports.run = function(worker) {
       socket.kickOut();
     });
     socket.on('disconnect', function() {
+      console.log(arguments);
+      // handlers.postprocessDisconnect(socket);
       console.log('DISCONNECT:', process.pid);
     });
     socket.on('error', function(error) {
