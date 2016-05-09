@@ -11,7 +11,9 @@ module.exports.run = function(worker) {
   scServer.addMiddleware(scServer.MIDDLEWARE_SUBSCRIBE, middleware.subscribe);
 
   scServer.on('connection', function(socket) {
-    socket.on('subscribe', handlers.postprocessSubscribe);
+    socket.on('subscribe', function(channel) {
+      handlers.postprocessSubscribe({ socketId: socket.id, channel: channel});
+    });
     console.log('CONNECTION: connected to', process.pid);
     socket.on('notify', function(options) {
       // don't allow API key to be sent to client
