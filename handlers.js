@@ -13,3 +13,7 @@ handlers.postprocessSubscribe = function(options) {
     console.log('onlineusers', onlineUsers.show(), onlineUsers.get());
   }
 };
+
+handlers.postprocessDisconnect = function(socket) {
+  onlineUsers.remove({ userId: socket.getAuthToken().userId, socketId: socket.id });
+};
