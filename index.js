@@ -14,13 +14,14 @@ db.users.testConnection()
     var socketCluster = new SocketCluster({
       authKey: config.authKey,
       workers: config.workers,
-      brokers: 3,
+      brokers: config.brokers,
       protocol: config.protocol,
       protocolOptions: config.protocolOptions,
       port: config.port,
       host: config.host,
       appName: 'myapp',
       workerController: 'worker.js',
+      brokerController: 'broker.js',
       allowClientPublish: false
     });
   });

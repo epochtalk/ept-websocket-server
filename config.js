@@ -4,6 +4,7 @@ var fs = require('fs');
 module.exports = {
   authKey: process.env.PRIVATE_KEY,
   workers: os.cpus().length,
+  brokers: os.cpus().length,
   port: process.env.WEBSOCKET_PORT,
   host: process.env.WEBSOCKET_HOST,
   protocol: process.env.WEBSOCKET_PROTOCOL,
