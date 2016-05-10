@@ -10,7 +10,6 @@ handlers.postprocessSubscribe = function(options) {
   // postprocess subscriptions
   if (channel.type === 'user') {
     onlineUsers.add({ userId: channel.id, socketId: options.socketId });
-    console.log('onlineusers', onlineUsers.show(), onlineUsers.get());
   }
 };
 
