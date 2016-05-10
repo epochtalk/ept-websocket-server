@@ -28,7 +28,10 @@ online.clear = function() {
 };
 
 online.show = function() {
-  return nonUniqueUsers(onlineUsers);
+  return redisClient.lrangeAsync('websocket-users', 0, -1)
+  .map(function(user) {
+    return JSON.parse(user);
+  });
 };
 
 online.get = function() {
