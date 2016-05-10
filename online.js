@@ -49,8 +49,5 @@ online.add = function(user) {
 };
 
 online.remove = function(user) {
-  _.remove(onlineUsers, function (onlineUser) {
-    return onlineUser.userId === user.userId && onlineUser.socketId === user.socketId;
-  });
-  return uniqueUsers(onlineUsers);
+  return redisClient.lremAsync('websocket-users', 0, JSON.stringify(user));
 };
