@@ -35,7 +35,13 @@ online.show = function() {
 };
 
 online.get = function() {
-  return uniqueUsers(onlineUsers);
+  return redisClient.lrangeAsync('websocket-users', 0, -1)
+  .map(function(user) {
+    return JSON.parse(user);
+  })
+  .then(function(users) {
+    return uniqueUsers(users);
+  });
 };
 
 online.add = function(user) {
