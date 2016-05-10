@@ -1,5 +1,10 @@
 var _ = require('lodash');
-var onlineUsers = [];
+var Promise = require('bluebird');
+var path = require('path');
+var config = require(path.join(__dirname, 'config'));
+var redis = Promise.promisifyAll(require('redis'));
+var redisClient = redis.createClient(config.redis);
+
 var online = module.exports = {};
 
 function uniqueUsers(users) {
@@ -9,6 +14,18 @@ function uniqueUsers(users) {
 function nonUniqueUsers(users) {
   return users;
 }
+
+online.logOptions = function() {
+  console.log(config.redis);
+};
+
+online.quit = function() {
+  return redisClient.quit();
+};
+
+online.clear = function() {
+  return redisClient.delAsync('websocket-users');
+};
 
 online.show = function() {
   return nonUniqueUsers(onlineUsers);
