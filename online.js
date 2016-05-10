@@ -45,8 +45,7 @@ online.get = function() {
 };
 
 online.add = function(user) {
-  onlineUsers.push(user);
-  return uniqueUsers(onlineUsers);
+  return redisClient.lpushAsync(['websocket-users', JSON.stringify(user)]);
 };
 
 online.remove = function(user) {
