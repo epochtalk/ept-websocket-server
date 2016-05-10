@@ -12,5 +12,10 @@ module.exports = {
     cert: fs.readFileSync(__dirname + '/keys/server.crt', 'utf8'),
     passphrase: process.env.WEBSOCKET_PASS
   },
+  redis: {
+    host: process.env.REDIS_HOST,
+    port: process.env.REDIS_PORT,
+    db: process.env.REDIS_DB
+  },
   APIKey: process.env.WEBSOCKET_API_KEY
 };
