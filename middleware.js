@@ -12,11 +12,11 @@ middleware.subscribe = function(req, next) {
     if (token) {
       db.users.find(token.userId).then(function(dbUser) {
         // check for user channel
-        if (channel['type'] === 'user' && channel['id'] === dbUser.id) {
+        if (channel.type === 'user' && channel.id === dbUser.id) {
           next();
         }
         // check for role channel
-        else if (channel['type'] === 'role' && _.some(dbUser.roles, helper.roleChannelLookup(channel['id']))) {
+        else if (channel.type === 'role' && _.some(dbUser.roles, helper.roleChannelLookup(channel.id))) {
           next();
         }
         else {
