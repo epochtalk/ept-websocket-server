@@ -13,9 +13,11 @@
   "author": "boka",
   "license": "ISC",
   "dependencies": {
+    "bluebird": "^3.3.5",
     "dotenv": "^2.0.0",
     "ept-users": "epochtalk/ept-users",
     "lodash": "^4.8.2",
+    "redis": "^2.6.0-2",
     "socketcluster": "^4.3.2"
   }
 }
