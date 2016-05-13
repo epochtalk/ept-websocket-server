@@ -1,43 +1,17 @@
-var _ = require('lodash');
 var path = require('path');
 var config = require(path.join(__dirname, 'config'));
-var db = require(path.join(__dirname, 'db'));
+
+var middleware = require(path.join(__dirname, 'middleware'));
+var handlers = require(path.join(__dirname, 'handlers'));
 
 module.exports.run = function(worker) {
   var scServer = worker.scServer;
 
   // authorize subscriptions
-  scServer.addMiddleware(scServer.MIDDLEWARE_SUBSCRIBE, function(req, next) {
-    var token = req.socket.getAuthToken();
-    var roleChannelLookup = function(channel) {
-      return function(role) {
-        return channel === '/r/' + role.lookup;
-      };
-    };
-    if (token) {
-      db.users.find(token.userId).then(function(dbUser) {
-        // check for user channel
-        if (req.channel === '/u/' + dbUser.id) {
-          next();
-        }
-        // check for role channel
-        else if (_.some(dbUser.roles, roleChannelLookup(req.channel))) {
-          next();
-        }
-        else {
-          next('MIDDLEWARE_SUBSCRIBE: Unauthorized channel ' + req.channel);
-        }
-      })
-      .catch(function(err) {
-        next('MIDDLEWARE_SUBSCRIBE: ' + err);
-      });
-    }
-    else {
-      next('MIDDLEWARE_SUBSCRIBE: Missing token.');
-    }
-  });
+  scServer.addMiddleware(scServer.MIDDLEWARE_SUBSCRIBE, middleware.subscribe);
 
   scServer.on('connection', function(socket) {
+    socket.on('subscribe', handlers.postprocessSubscribe);
     console.log('CONNECTION: connected to', process.pid);
     socket.on('notify', function(options) {
       // don't allow API key to be sent to client
