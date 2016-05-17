@@ -8,6 +8,11 @@ var dbPrefix = 'websocket-users';
 
 var online = module.exports = {};
 
+// create and expose redis subscriber
+var redisSub = redis.createClient(config.redis);
+redisSub.subscribe(config.redisChannels.onlineUsersChannel);
+online.subscriptionClient = redisSub;
+
 function uniqueUsers(users) {
   return _(users).uniqBy('userId').map('userId').value();
 }

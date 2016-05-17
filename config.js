@@ -18,5 +18,8 @@ module.exports = {
     port: process.env.REDIS_PORT,
     db: process.env.REDIS_DB
   },
+  redisChannels: {
+    onlineUsersChannel: 'online-users'
+  },
   APIKey: process.env.WEBSOCKET_API_KEY
 };
