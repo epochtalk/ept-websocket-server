@@ -52,3 +52,7 @@ online.add = function(user) {
 online.remove = function(user) {
   return redisClient.lremAsync(dbPrefix, 0, JSON.stringify(user));
 };
+
+online.publish = function(channel, message) {
+  redisClient.publish(channel, message);
+};
