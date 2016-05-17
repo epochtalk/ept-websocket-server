@@ -19,6 +19,9 @@ middleware.subscribe = function(req, next) {
         else if (channel.type === 'role' && _.some(dbUser.roles, helper.roleChannelLookup(channel.id))) {
           next();
         }
+        else if (channel.type === 'public') {
+          next();
+        }
         else {
           next('MIDDLEWARE_SUBSCRIBE: Unauthorized channel ' + req.channel);
         }
