@@ -4,6 +4,12 @@ var helper = require(path.join(__dirname, 'helper'));
 var onlineUsers = require(path.join(__dirname, 'online'));
 
 module.exports.run = function(broker) {
+  onlineUsers.subscriptionClient.on('message', function(channel, message) {
+    if (channel === config.redisChannels.onlineUsersChannel) {
+      broker.publish(JSON.stringify({ type: 'public' }), helper.parseJSON(message));
+    }
+  });
+
   broker.on('subscribe', function(channel) {
     var parsedChannel = helper.parseJSON(channel);
     if (parsedChannel.type === 'user') {
