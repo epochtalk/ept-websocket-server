@@ -9,7 +9,7 @@ module.exports.run = function(broker) {
     if (parsedChannel.type === 'user') {
       onlineUsers.add({ userId: parsedChannel.id, brokerId: broker.id });
       onlineUsers.show().then(function(online) {
-        console.log('BROKER SUBSCRIBE', online);
+        console.log('BROKER SUBSCRIBE', parsedChannel.id);
       });
     }
   });
@@ -18,7 +18,7 @@ module.exports.run = function(broker) {
     if (parsedChannel.type === 'user') {
       onlineUsers.remove({ userId: parsedChannel.id, brokerId: broker.id });
       onlineUsers.show().then(function(online) {
-        console.log('BROKER UNSUBSCRIBE', online);
+        console.log('BROKER UNSUBSCRIBE', parsedChannel.id);
       });
     }
   });
