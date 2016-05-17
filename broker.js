@@ -5,7 +5,7 @@ var onlineUsers = require(path.join(__dirname, 'online'));
 
 module.exports.run = function(broker) {
   broker.on('subscribe', function(channel) {
-    var parsedChannel = helper.parseChannel(channel);
+    var parsedChannel = helper.parseJSON(channel);
     if (parsedChannel.type === 'user') {
       onlineUsers.add({ userId: parsedChannel.id, brokerId: broker.id });
       onlineUsers.show().then(function(online) {
@@ -14,7 +14,7 @@ module.exports.run = function(broker) {
     }
   });
   broker.on('unsubscribe', function(channel) {
-    var parsedChannel = helper.parseChannel(channel);
+    var parsedChannel = helper.parseJSON(channel);
     if (parsedChannel.type === 'user') {
       onlineUsers.remove({ userId: parsedChannel.id, brokerId: broker.id });
       onlineUsers.show().then(function(online) {

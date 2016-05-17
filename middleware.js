@@ -5,7 +5,7 @@ var helper = require(path.join(__dirname, 'helper'));
 
 var middleware = module.exports = {};
 middleware.subscribe = function(req, next) {
-  var channel = helper.parseChannel(req.channel);
+  var channel = helper.parseJSON(req.channel);
   var token = req.socket.getAuthToken();
 
   if (channel) {

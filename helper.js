@@ -1,7 +1,7 @@
 var helper = module.exports = {};
 
-helper.parseChannel = function(reqChannel) {
-  try { return JSON.parse(reqChannel); }
+helper.parseJSON = function(JSONThing) {
+  try { return JSON.parse(JSONThing); }
   catch(err){ return undefined; }
 };
 
