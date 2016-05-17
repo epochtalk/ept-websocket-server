@@ -4,6 +4,7 @@ var path = require('path');
 var config = require(path.join(__dirname, 'config'));
 var redis = Promise.promisifyAll(require('redis'));
 var redisClient = redis.createClient(config.redis);
+var dbPrefix = 'websocket-users';
 
 var online = module.exports = {};
 
@@ -24,18 +25,18 @@ online.quit = function() {
 };
 
 online.clear = function() {
-  return redisClient.delAsync('websocket-users');
+  return redisClient.delAsync(dbPrefix);
 };
 
 online.show = function() {
-  return redisClient.lrangeAsync('websocket-users', 0, -1)
+  return redisClient.lrangeAsync(dbPrefix, 0, -1)
   .map(function(user) {
     return JSON.parse(user);
   });
 };
 
 online.get = function() {
-  return redisClient.lrangeAsync('websocket-users', 0, -1)
+  return redisClient.lrangeAsync(dbPrefix, 0, -1)
   .map(function(user) {
     return JSON.parse(user);
   })
@@ -45,9 +46,9 @@ online.get = function() {
 };
 
 online.add = function(user) {
-  return redisClient.lpushAsync(['websocket-users', JSON.stringify(user)]);
+  return redisClient.lpushAsync([dbPrefix, JSON.stringify(user)]);
 };
 
 online.remove = function(user) {
-  return redisClient.lremAsync('websocket-users', 0, JSON.stringify(user));
+  return redisClient.lremAsync(dbPrefix, 0, JSON.stringify(user));
 };
