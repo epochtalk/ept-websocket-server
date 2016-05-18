@@ -2,6 +2,7 @@ var _ = require('lodash');
 var Promise = require('bluebird');
 var path = require('path');
 var config = require(path.join(__dirname, 'config'));
+var helper = require(path.join(__dirname, 'helper'));
 var redis = Promise.promisifyAll(require('redis'));
 var redisClient = redis.createClient(config.redis);
 var dbPrefix = 'websocket-users';
@@ -36,14 +37,14 @@ online.clear = function() {
 online.show = function() {
   return redisClient.lrangeAsync(dbPrefix, 0, -1)
   .map(function(user) {
-    return JSON.parse(user);
+    return helper.parseJSON(user);
   });
 };
 
 online.get = function() {
   return redisClient.lrangeAsync(dbPrefix, 0, -1)
   .map(function(user) {
-    return JSON.parse(user);
+    return helper.parseJSON(user);
   })
   .then(function(users) {
     return uniqueUsers(users);
