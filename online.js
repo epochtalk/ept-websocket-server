@@ -34,6 +34,7 @@ online.clear = function() {
   return redisClient.delAsync(dbPrefix);
 };
 
+// returns all matching users with broker id's
 online.show = function() {
   return redisClient.lrangeAsync(dbPrefix, 0, -1)
   .map(function(user) {
@@ -44,7 +45,11 @@ online.show = function() {
 online.get = function() {
   return redisClient.lrangeAsync(dbPrefix, 0, -1)
   .map(function(user) {
-    return helper.parseJSON(user);
+    var parsedUser = helper.parseJSON(user);
+    // selectively return fields
+    return {
+      userId: parsedUser.userId
+    };
   })
   .then(function(users) {
     return uniqueUsers(users);
