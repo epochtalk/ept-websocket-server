@@ -1,5 +1,6 @@
 var os = require('os');
 var fs = require('fs');
+var path = require('path');
 
 module.exports = {
   authKey: process.env.PRIVATE_KEY,
@@ -9,8 +10,8 @@ module.exports = {
   host: process.env.WEBSOCKET_HOST,
   protocol: process.env.WEBSOCKET_PROTOCOL,
   protocolOptions: {
-    key: fs.readFileSync(__dirname + '/keys/server.key', 'utf8'),
-    cert: fs.readFileSync(__dirname + '/keys/server.crt', 'utf8'),
+    key: fs.readFileSync(path.join(__dirname, 'keys', process.env.WEBSOCKET_KEY_NAME), 'utf8'),
+    cert: fs.readFileSync(path.join(__dirname, 'keys', process.env.WEBSOCKET_CERT_NAME), 'utf8'),
     passphrase: process.env.WEBSOCKET_PASS
   },
   redis: {
