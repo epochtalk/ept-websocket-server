@@ -6,25 +6,52 @@ Socket server for epochtalk notifications.
 Configuration
 -------------
 
-`cp example.env .env`
+```bash
+cp example.env .env
+```
 
-Edit `.env`:
+### EpochTalk
 
-* `DATABASE_URL` is the URL for the postgres instance.
+```bash
+WEBSOCKET_HOST    # specify the host to listen on
+WEBSOCKET_PORT    # specify the port to expose
+WEBSOCKET_API_KEY # used to validate the Epochtalk server
+PRIVATE_KEY       # to reflect that of the Epochtalk server.
+                  # used for JWT token authentication.
+```
 
-* `PRIVATE_KEY` to reflect that of the Epochtalk server.
+### Postgres
 
-  * This is used for JWT token authentication.
+```bash
+DATABASE_URL # the URL for the postgres instance
+```
 
-* Provide a `WEBSOCKET_API_KEY` to validate the Epochtalk server.
+### Redis
 
-### Using https
+```bash
+REDIS_HOST # the redis host to connect to
+REDIS_PORT # the redis port to connect to
+REDIS_DB   # the number of the redis db
+```
 
-Provide:
-WEBSOCKET_PROTOCOL
-WEBSOCKET_CERT
-WEBSOCKET_KEY
-WEBSOCKET_PASS
+### SSL
+
+```bash
+WEBSOCKET_PROTOCOL  # http or https
+WEBSOCKET_KEY_NAME  # corresponds to the file name of the key
+WEBSOCKET_CERT_NAME # corresponds to the file name of the cert
+WEBSOCKET_PASS      # the passphrase for the ssl private key
+```
+
+### Engine
+
+You can specify [uws](https://www.npmjs.com/package/uws) as the engine
+
+```bash
+WEBSOCKET_ENGINE # ws (default) or uws
+```
+
+
 
 Running
 -------
