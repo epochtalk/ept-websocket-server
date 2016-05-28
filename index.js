@@ -15,6 +15,7 @@ db.users.testConnection()
       authKey: config.authKey,
       workers: config.workers,
       brokers: config.brokers,
+      wsEngine: config.wsEngine,
       protocol: config.protocol,
       protocolOptions: config.protocolOptions,
       port: config.port,

@@ -8,6 +8,7 @@ module.exports = {
   brokers: os.cpus().length,
   port: process.env.WEBSOCKET_PORT,
   host: process.env.WEBSOCKET_HOST,
+  wsEngine: process.env.WEBSOCKET_ENGINE,
   protocol: process.env.WEBSOCKET_PROTOCOL,
   protocolOptions: {
     key: fs.readFileSync(path.join(__dirname, 'keys', process.env.WEBSOCKET_KEY_NAME), 'utf8'),
