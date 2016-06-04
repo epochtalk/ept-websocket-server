@@ -36,6 +36,22 @@ REDIS_DB   # the number of the redis db
 
 ### SSL
 
+If you would like to use SSL, enable it by setting `WEBSOCKET_PROTOCOL=https`.
+You will also need to provide:
+
+ * A key at `keys/WEBSOCKET_KEY_NAME`
+
+ * A cert at `keys/WEBSOCKET_CERT_NAME`
+
+You may provide an *optional* `WEBSOCKET_KEY_NAME` and `WEBSOCKET_CERT_NAME`.
+If you do not provide them, defaults are:
+
+  * `WEBSOCKET_KEY_NAME=server.key`
+
+  * `WEBSOCKET_CERT_NAME=server.crt`
+
+Full options:
+
 ```bash
 WEBSOCKET_PROTOCOL  # http or https
 WEBSOCKET_KEY_NAME  # corresponds to the file name of the key
