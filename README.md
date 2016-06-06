@@ -28,6 +28,9 @@ DATABASE_URL # the URL for the postgres instance
 
 ### Redis
 
+Websocket-server uses Redis to keep track of users who are currently online.  To
+set up a connection to Redis, provide the following variables in `.env`.
+
 ```bash
 REDIS_HOST # the redis host to connect to
 REDIS_PORT # the redis port to connect to
