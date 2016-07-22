@@ -1,16 +1,23 @@
 var path = require('path');
-var config = require(path.join(__dirname, 'config'));
-
-var middleware = require(path.join(__dirname, 'middleware'));
+var config = require(path.normalize(__dirname + '/config'));
+var onlineUsers = require(path.normalize(__dirname + '/plugins/online'));
+var subMiddleware = require(path.normalize(__dirname + '/middleware/online-subscribe'));
 
 module.exports.run = function(worker) {
   var scServer = worker.scServer;
 
   // authorize subscriptions
-  scServer.addMiddleware(scServer.MIDDLEWARE_SUBSCRIBE, middleware.subscribe);
+  scServer.addMiddleware(scServer.MIDDLEWARE_SUBSCRIBE, subMiddleware.subscribe);
 
   scServer.on('connection', function(socket) {
-    console.log('CONNECTION: connected to', process.pid);
+    var userId = 'server';
+    var socketId = socket.id;
+    var authToken = socket.authToken;
+    if (authToken) { userId = socket.authToken.userId; }
+
+    console.log(`CONNECTION EVENT: user ${userId} connected to process ${process.pid}`);
+
+    // epochtalk notification integration
     socket.on('notify', function(options) {
       // don't allow API key to be sent to client
       var APIKey = options.APIKey;
@@ -20,10 +27,52 @@ module.exports.run = function(worker) {
         scServer.exchange.publish(options.channel, options.data);
       }
     });
-    socket.on('disconnect', function() {
-      console.log('DISCONNECT:', process.pid);
+
+    socket.on('loggedIn', function() {
+      if (socket.authToken) { userId = socket.authToken.userId; }
+      if (userId) {
+        var user = { id: userId, socketId: socketId };
+        onlineUsers.add(user);
+        console.log(`LOGIN EVENT: user ${userId} has logged in on process ${process.pid}`);
+      }
     });
+
+    socket.on('loggedOut', function() {
+      if (userId) {
+        onlineUsers.remove({ id: userId, socketId: socketId });
+        socket.deauthenticate();
+        console.log(`LOGOUT EVENT: user ${userId} has logged out on process ${process.pid}`);
+        userId = '';
+      }
+    });
+
+    // check if a user is online
+    socket.on('isOnline', function(data, res) {
+      var user = { id: data };
+      return onlineUsers.isOnline(user)
+      .then(function(isOnline) {
+        return res(null, {id: data, online: isOnline});
+      });
+    });
+
+    socket.on('disconnect', function() {
+      if (userId) {
+        onlineUsers.remove({ id: userId, socketId: socketId });
+        console.log(`LOGOUT EVENT: user ${userId} has logged out on process ${process.pid}`);
+        userId = '';
+      }
+
+      var user = userId || 'server';
+      console.log(`DISCONNECTION EVENT: user ${user} disconnected from process ${process.pid}`);
+    });
+
     socket.on('error', function(error) {
+      if (userId) {
+        onlineUsers.remove({ id: userId, socketId: socketId });
+        console.log(`LOGOUT EVENT: user ${userId} has logged out on process ${process.pid}`);
+        userId = '';
+      }
+
       console.log('SocketError:', error.message);
     });
   });

@@ -1,7 +1,8 @@
-var path = require('path');
 var _ = require('lodash');
-var db = require(path.join(__dirname, 'db'));
-var helper = require(path.join(__dirname, 'helper'));
+var path = require('path');
+var db = require(path.normalize(__dirname + '/../db'));
+var helper = require(path.normalize(__dirname + '/../helper'));
+var onlineUsers = require(path.normalize(__dirname + '/../plugins/online'));
 
 var middleware = module.exports = {};
 middleware.subscribe = function(req, next) {
@@ -10,7 +11,8 @@ middleware.subscribe = function(req, next) {
 
   if (channel) {
     if (token) {
-      db.users.find(token.userId).then(function(dbUser) {
+      db.users.find(token.userId)
+      .then(function(dbUser) {
         // check for user channel
         if (channel.type === 'user' && channel.id === dbUser.id) {
           next();
@@ -38,4 +40,3 @@ middleware.subscribe = function(req, next) {
     next('MIDDLEWARE_SUBSCRIBE: Invalid channel format ', req.channel);
   }
 };
-

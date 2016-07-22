@@ -17,7 +17,7 @@ if (process.env.WEBSOCKET_PROTOCOL === 'https') {
     console.log('WEBSOCKET_KEY_NAME', process.env.WEBSOCKET_KEY_NAME || '(server.key)');
     console.log('WEBSOCKET_CERT_NAME', process.env.WEBSOCKET_CERT_NAME || '(server.crt)');
     process.exit(e.errno);
-  };
+  }
 }
 
 module.exports = {
