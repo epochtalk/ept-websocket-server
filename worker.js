@@ -11,11 +11,12 @@ module.exports.run = function(worker) {
 
   scServer.on('connection', function(socket) {
     var userId = 'server';
+    var prefix = '[WSS]';
     var socketId = socket.id;
     var authToken = socket.authToken;
     if (authToken) { userId = socket.authToken.userId; }
 
-    console.log(`CONNECTION EVENT: user ${userId} connected to process ${process.pid}`);
+    console.log(`${prefix} CONNECTION EVENT: user ${userId} connected to process ${process.pid}`);
 
     // epochtalk notification integration
     socket.on('notify', function(options) {
@@ -33,7 +34,7 @@ module.exports.run = function(worker) {
       if (userId) {
         var user = { id: userId, socketId: socketId };
         onlineUsers.add(user);
-        console.log(`LOGIN EVENT: user ${userId} has logged in on process ${process.pid}`);
+        console.log(`${prefix} LOGIN EVENT: user ${userId} has logged in on process ${process.pid}`);
       }
     });
 
@@ -41,7 +42,7 @@ module.exports.run = function(worker) {
       if (userId) {
         onlineUsers.remove({ id: userId, socketId: socketId });
         socket.deauthenticate();
-        console.log(`LOGOUT EVENT: user ${userId} has logged out on process ${process.pid}`);
+        console.log(`${prefix} LOGOUT EVENT: user ${userId} has logged out on process ${process.pid}`);
         userId = '';
       }
     });
@@ -58,18 +59,18 @@ module.exports.run = function(worker) {
     socket.on('disconnect', function() {
       if (userId) {
         onlineUsers.remove({ id: userId, socketId: socketId });
-        console.log(`LOGOUT EVENT: user ${userId} has logged out on process ${process.pid}`);
+        console.log(`${prefix} LOGOUT EVENT: user ${userId} has logged out on process ${process.pid}`);
         userId = '';
       }
 
       var user = userId || 'server';
-      console.log(`DISCONNECTION EVENT: user ${user} disconnected from process ${process.pid}`);
+      console.log(`${prefix} DISCONNECTION EVENT: user ${user} disconnected from process ${process.pid}`);
     });
 
     socket.on('error', function(error) {
       if (userId) {
         onlineUsers.remove({ id: userId, socketId: socketId });
-        console.log(`LOGOUT EVENT: user ${userId} has logged out on process ${process.pid}`);
+        console.log(`${prefix} LOGOUT EVENT: user ${userId} has logged out on process ${process.pid}`);
         userId = '';
       }
 
