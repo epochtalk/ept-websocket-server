@@ -2,7 +2,6 @@ var _ = require('lodash');
 var path = require('path');
 var db = require(path.normalize(__dirname + '/../db'));
 var helper = require(path.normalize(__dirname + '/../helper'));
-var onlineUsers = require(path.normalize(__dirname + '/../plugins/online'));
 
 var middleware = module.exports = {};
 middleware.subscribe = function(req, next) {
