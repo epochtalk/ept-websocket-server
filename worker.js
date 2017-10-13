@@ -74,7 +74,7 @@ module.exports.run = function(worker) {
         userId = '';
       }
 
-      console.log('SocketError:', error.message);
+      console.log(`${prefix} SocketError:`, error.message);
     });
   });
 };

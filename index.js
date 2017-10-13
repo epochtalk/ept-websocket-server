@@ -1,5 +1,12 @@
 var path = require('path');
+var onlineUsers = require(path.normalize(__dirname + '/plugins/online'));
 
+function exit(err) {
+  if (err) { console.log(err); }
+  console.log('Flushing Online Users');
+  return onlineUsers.clear()
+  .then(function() { process.exit(); });
+}
 
 module.exports = {
   start: function(envPath) {
@@ -7,7 +14,6 @@ module.exports = {
     var SocketCluster = require('socketcluster').SocketCluster;
     var db = require(path.normalize(__dirname + '/db'));
     var config = require(path.normalize(__dirname + '/config'));
-    var onlineUsers = require(path.normalize(__dirname + '/plugins/online'));
     return db.users.testConnection()
     .then(onlineUsers.logOptions)
     .then(onlineUsers.clear)
@@ -27,22 +33,9 @@ module.exports = {
           allowClientPublish: false
         });
         return resolve(socketCluster);
-      })
-      // cleanup (process exit, flushes db)
-      .then(function() {
-        function exit(options, err) {
-          if (err) { console.log(err); }
-          console.log('Flushing Online Users');
-
-          return onlineUsers.clear()
-          .then(function() { process.exit(); });
-        }
-
-        process.on('exit', exit);
-        process.on('SIGINT', exit);
-        process.on('uncaughtException', exit);
       });
     })
     .catch(console.log);
-  }
+  },
+  exit: function(err) { return exit(err); }
 };
