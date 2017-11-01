@@ -32,7 +32,7 @@ module.exports = {
       .then(function() {
         function exit(options, err) {
           if (err) { console.log(err); }
-          console.log('Flushing Online Users');
+          console.log('[WSS] Flushing Online Users');
 
           return onlineUsers.clear()
           .then(function() { process.exit(); });

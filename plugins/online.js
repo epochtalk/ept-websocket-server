@@ -8,7 +8,7 @@ var dbPrefix = 'online-users';
 var online = module.exports = {};
 
 online.logOptions = function() {
-  console.log(config.redis);
+  console.log('[WSS] Redis Configurations:\n', JSON.stringify(config.redis, null, 2));
 };
 
 online.quit = function() {
